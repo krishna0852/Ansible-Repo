@@ -1,0 +1,7 @@
+hosts: all 
+become: yes 
+tasks:
+  - name: installing tools from browser 
+    get_url:
+      url: https://downloads.apache.org/maven/maven-3/3.9.6/source/apache-maven-3.9.6-src.zip.asc
+      dest: /home/ubuntu
