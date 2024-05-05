@@ -1,0 +1,16 @@
+- hosts: all 
+  become: yes 
+  vars:
+    tool1: net-tools 
+    tool2: unzip 
+  tasks: 
+    - name: Installing net-tools through variable
+      apt: 
+       update_cache: yes 
+       name: "{{tool1}}"
+       state: present 
+    - name: Installing unzip though variable
+      apt: 
+       update_cache: yes 
+       name: "{{tool2}}"
+       state: present
