@@ -1,0 +1,12 @@
+hosts: all 
+become: yes 
+tasks:
+  - name: installing the set of tools 
+    apt:
+      update_cache: yes 
+      name: "{{item}}"
+      state: present 
+    loop:
+      - net-tools 
+      - unzip 
+      - tree
