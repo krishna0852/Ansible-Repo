@@ -1,0 +1,19 @@
+hosts: all 
+become: yes 
+tasks:
+ - name: installing unzip 
+   apt:
+    update_cache: yes 
+    name: unzip 
+    state: present 
+ - name: downloading the maven from browser 
+   get_url:
+     src: https://downloads.apache.org/maven/maven-3/3.9.6/source/apache-maven-3.9.6-src.zip
+     dest: /home/ubuntu
+ - name: unarching or unzipping the installed maven 
+   unarchive:
+      src: /home/ubuntu/apache-maven-3.9.6-src.zip
+      dest: /home/ubuntu
+      remote_src: yes 
+
+#Note: unzip should be there if we want to use un-archive
