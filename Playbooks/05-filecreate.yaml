@@ -1,0 +1,12 @@
+- hosts: all 
+  become: yes 
+  vars:
+    - user_confirms: yes 
+    - user_home_director: azureuser
+  tasks:
+    - name: creating a file 
+      file: 
+        path: /home/{{user_home_directory}}/ansible-file
+        state: touch 
+        mode: 400 # you can skip if you want
+        when: user_confirms
