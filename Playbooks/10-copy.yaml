@@ -1,0 +1,9 @@
+- hosts: all 
+  become: yes 
+  tasks: 
+    - name: copying files from master to node 
+      copy:
+        src: copy-file # file name which is present in master machine
+        dest: /home/azureuser/file-from-master.txt # copying to this location with file-name file-from-master.txt 
+        mode: 700
+
