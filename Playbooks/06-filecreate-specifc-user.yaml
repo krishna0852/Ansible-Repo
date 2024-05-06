@@ -1,0 +1,12 @@
+- hosts: all 
+  become: yes
+  vars: 
+    - create_file: yes 
+    - username: azureuser 
+  tasks: 
+    - name: creating file under specific user 
+      become_user: "{{username}}"
+      file:
+       path: /home/{{username}}/ansible-file-01
+       state: touch 
+      when: create_file
