@@ -1,0 +1,23 @@
+- hosts: all
+  become: yes
+  tasks:
+    - name: installing unzip using tags
+      apt:
+        update_cache: yes
+        name: unzip
+        state: present
+      tags:
+        - install-unzip
+    - name: installing net-tools using tags
+      apt:
+        update_cache: yes
+        name: net-tools
+        state: present
+      tags:
+        - install-ntools
+
+# using tags we can execute whatever task is required
+# if you execute normally i.e ansible-playbook 11-tags.yaml --it will execute and install both unzip and net-tools
+# if you want only to install unzip or net-tools you can execute through tags using below 
+# ansible-playbook 11-tags.yaml --tags "install-unzip" ==> only unzip will install 
+# ansible-playbook 11-tags.yaml --tags "install-ntools" => only net-tools will install
