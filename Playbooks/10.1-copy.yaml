@@ -1,0 +1,12 @@
+- hosts: all
+  become: yes
+  tasks:
+    - name: copying files from master to node
+      copy:
+        src: ansible-file
+        dest: /tmp/new-file-test
+        mode: 700
+        remote_src: yes
+
+
+# when you mention remote_src: yes it will check the file in slave machine and it will copied to the specifed path 
