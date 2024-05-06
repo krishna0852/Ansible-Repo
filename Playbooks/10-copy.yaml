@@ -7,3 +7,5 @@
         dest: /home/azureuser/file-from-master.txt # copying to this location with file-name file-from-master.txt 
         mode: 700
 
+
+# when you didn't mention remote_src: yes it will check the file in master machine and it will copied to the specifed path in slave machine
