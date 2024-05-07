@@ -1,0 +1,31 @@
+- hosts: all 
+  become: yes 
+  tasks: 
+    - name: installing net-tools through handlers after executing shell command 
+      shell: echo "hi, install net-tools"
+      notify:
+       - net-tools 
+    - name: installing unzip through handlers after executing shell command 
+      shell: echo "hi, install unzip"
+      notify: 
+       - unzip
+  handlers: 
+    - name: net-tools 
+      apt: 
+        update_cache: yes 
+        name: net-tools 
+        state: present 
+    - name: unzip 
+      apt: 
+        update_cache: yes 
+        name: unzip 
+        state: present 
+
+
+#handlers will get called and executed after all tasks are completed in the play 
+
+# order of execution is 
+#     1st -> shell command is executed -> hi, install net-toolsś
+#     2nd -> shell command is executed -> hi, install unzip
+#     3rd -> handler will get called , net-tools 
+#     4th--> handler will get called, unzip
