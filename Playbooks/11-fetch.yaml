@@ -1,0 +1,10 @@
+- hosts: all
+  become: yes
+  tasks:
+    - name: fetch file from slave node using fetch module
+      fetch:
+        src: /home/azureuser/fetchingfromnode   #file which exists on slave machine
+        dest: /home/azureuser/         #In this directory file will get stored on slave-ip inside that older file will be there
+
+
+# fetch module is used to fetch file from slave machine to master machine
