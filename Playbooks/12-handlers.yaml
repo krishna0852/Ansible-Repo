@@ -1,0 +1,16 @@
+- hosts: all 
+  become: yes 
+  tasks:
+   - name: executing shell-command and after that calling handlers to install tools 
+     shell: echo "hi"
+     notify:
+       - handlerdef # calling handlers handlerdef
+  handlers:
+    - name: handlerdef
+      apt: 
+       update_cache: yes 
+       name: 
+         - unzip
+         - net-tools
+       state: present 
+    
