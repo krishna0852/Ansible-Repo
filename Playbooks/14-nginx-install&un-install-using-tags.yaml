@@ -1,0 +1,90 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: un-installing nginx
+      block:
+        - name: Stopping nginx web server
+          service:
+            name: nginx
+            state: stopped
+          # name: nginx
+          # state: absent
+          # autoremove: yes
+          # notify:
+          #   - stop nginx
+        - name: Removing nginx
+          apt:
+            name: nginx-common, nginx
+            state: absent
+      tags:
+        - remove-nginx
+
+    - name: installing nginx
+      block:
+        - name: installing nginx
+          apt:
+            update_cache: yes
+            name: nginx
+            state: present
+          notify:
+            - start nginx
+      tags:
+        - install-nginx
+  handlers:
+  - name: start nginx
+    service:
+      name: nginx
+      state: started
+
+
+
+
+
+
+#========================
+
+# - hosts: all
+#   become: yes 
+#   tasks:
+#    - name: un-installing nginx
+#      block:
+#      - name: Remove Nginx web server
+#        apt:
+#         name: nginx
+#         state: absent
+#         autoremove: yes
+#        notify:
+#         - stop nginx
+#      - name: Remove Nginx configuration files
+#        file:
+#         path: "{{ item }}"
+#         state: absent
+#        with_items:
+#         - /etc/nginx
+#         - /var/log/nginx
+#         - /usr/share/nginx
+#         - nginx 
+#         - nginx-comman
+#      tags:
+#        - remove-nginx
+#    - name: installing nginx
+#      block:
+#        - name: installing nginx 
+#          apt: 
+#           update_cache: yes 
+#           name: nginx 
+#           state: present 
+#          notify: 
+#          - start nginx 
+#      tags: 
+#           - install-nginx
+#   handlers: 
+#     - name: stop nginx 
+#       service: 
+#         name: nginx 
+#         state: stopped 
+#     - name: start nginx 
+#       service: 
+#         name: nginx 
+#         state: started   
