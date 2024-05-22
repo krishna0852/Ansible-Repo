@@ -1,0 +1,21 @@
+- hosts: all 
+  become: yes 
+  tasks: 
+    - name: installing nginx 
+      apt: 
+       update_cache: yes 
+       name: nginx 
+       state: absent
+      notify:
+        - stop nginx 
+  handlers: 
+    - name: stop nginx 
+      service:
+        name: nginx 
+        state: stop
+
+
+
+
+
+
