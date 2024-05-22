@@ -1,0 +1,70 @@
+- hosts: all 
+  become: yes 
+  serial: 1 
+  vars:
+    Java_path: /usr/lib/jvm/java-17-openjdk
+    maven_path: /home/ubuntu/maven
+
+  tasks: 
+   - name: install Java and set environment variables
+
+     block: 
+       
+       - name: installing Java-17 
+         apt: 
+          update_cache: yes 
+          name: openjdk-17-jdk
+          state: present 
+
+       - name: setting environment variables for home
+         lineinfile:
+          path: /etc/environment
+          line: 'JAVA_HOME= "{{ Java_path }}"'
+
+       - name: setting path environment variables 
+         lineinfile:
+          path: /etc/environment
+          line: 'PATH=$PATH:/usr/bin:/bin:$JAVA_HOME/bin'
+          insertafter: EOF
+
+   - name: install maven and set environment variables 
+     
+     block:
+
+      - name: installing maven 
+        get_url:
+          url: https://dlcdn.apache.org/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.tar.gz
+          dest: /home/ubuntu/
+
+      - name : extracting installed maven 
+        unarchive: 
+          src: /home/ubuntu/apache-maven-3.9.6-bin.tar
+          dest: /home/ubuntu/maven
+
+      - name : creating symbolic link for maven in bin directory 
+        command: cd /bin && ln -s /home/ubuntu/maven/bin/mvn mvn
+        args:
+            creates: /usr/local/bin/mvn
+
+      - name: setting environment variable for home
+        lineinfile:
+          path: /etc/environment
+          line: 'MVN_HOME= "{{ maven_path}}"'
+      - name: setting environment variable for bin 
+        lineinfile:
+          path: /etc/environment
+          line: 'PATH=$PATH:/usr/bin:/bin:$MVN_HOME/bin'
+          insertafter: EOF
+
+
+   - name: install basic tools 
+     
+     block:
+      - name: installing net-tools 
+        apt: 
+         update_cache: yes 
+         name: "{{item}}"
+        loop:
+          - unzip 
+          - net-tools
+    
