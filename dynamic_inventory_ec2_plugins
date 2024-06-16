@@ -18,3 +18,16 @@ keyed_groups:
   - key: tags
     prefix: tag
 =================
+
+====================================================================================
+plugin: amazon.aws.aws_ec2
+regions:
+  - us-east-1  # Specify your AWS region(s) here
+filters:
+  tag:env: deb
+  tag:component: k8s_masterNode
+  instance-state-name: running
+keyed_groups:
+  - key: tags.Name
+    prefix: tag_
+=====================================================================================
